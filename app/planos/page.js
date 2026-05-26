@@ -1,0 +1,491 @@
+"use client"
+
+export default function Planos() {
+
+  function abrirCadastro(plano) {
+
+    localStorage.setItem(
+      "planoVip",
+      plano
+    )
+
+    const barbeiro =
+      localStorage.getItem(
+        "barbeiroSelecionado"
+      )
+
+    localStorage.setItem(
+      "barbeiroVip",
+      barbeiro
+    )
+
+    // VERIFICA SE JÁ EXISTE LOGIN VIP
+
+    const clienteLogado =
+      localStorage.getItem(
+        "clienteVipLogado"
+      )
+
+    // SE JÁ EXISTIR LOGIN,
+    // REMOVE PARA CRIAR OUTRA CONTA
+
+    if (clienteLogado) {
+
+      localStorage.removeItem(
+        "clienteVipLogado"
+      )
+
+    }
+
+    // ABRE CADASTRO VIP
+
+    window.location.href =
+      "/cadastro-vip"
+  }
+
+  return (
+
+    <main
+      style={{
+        minHeight: "100vh",
+        background:
+          "linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.92)), url('/logo.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: "25px 15px 60px 15px",
+        color: "#fff",
+        fontFamily: "Arial"
+      }}
+    >
+
+      {/* VOLTAR */}
+
+      <div
+        onClick={() =>
+          window.history.back()
+        }
+
+        style={{
+          fontSize: "28px",
+          cursor: "pointer",
+          marginBottom: "15px",
+          color: "#d4af37",
+          width: "fit-content"
+        }}
+      >
+        ←
+      </div>
+
+      {/* TÍTULO */}
+
+      <h1
+        style={{
+          textAlign: "center",
+          color: "#d4af37",
+          fontSize: "42px",
+          marginBottom: "10px",
+          fontWeight: "bold"
+        }}
+      >
+        Barber Ville VIP
+      </h1>
+
+      <p
+        style={{
+          textAlign: "center",
+          color: "#ccc",
+          fontSize: "17px",
+          lineHeight: "30px",
+          maxWidth: "600px",
+          margin: "0 auto 40px auto"
+        }}
+      >
+        Fique alinhado o mês inteiro 💈
+        <br />
+        Atendimento semanal com prioridade e economia em todos os cortes.
+      </p>
+
+      {/* PLANOS */}
+
+      <div
+        style={{
+          display: "grid",
+          gap: "28px",
+          maxWidth: "550px",
+          margin: "0 auto"
+        }}
+      >
+
+        {/* PLANO PRATA */}
+
+        <div
+          style={{
+            background:
+              "rgba(0,0,0,0.78)",
+
+            border:
+              "1px solid rgba(212,175,55,0.25)",
+
+            borderRadius: "30px",
+
+            padding: "35px",
+
+            backdropFilter:
+              "blur(10px)",
+
+            boxShadow:
+              "0 0 25px rgba(212,175,55,0.08)"
+          }}
+        >
+
+          <div
+            style={{
+              background:
+                "#d4af37",
+
+              color: "#000",
+
+              width: "fit-content",
+
+              padding:
+                "8px 14px",
+
+              borderRadius: "999px",
+
+              fontWeight: "bold",
+
+              fontSize: "13px",
+
+              marginBottom: "20px"
+            }}
+          >
+            MAIS ESCOLHIDO 🔥
+          </div>
+
+          <h2
+            style={{
+              color: "#d4af37",
+              fontSize: "38px",
+              textAlign: "center",
+              marginBottom: "10px"
+            }}
+          >
+            Plano Prata
+          </h2>
+
+          <h3
+            style={{
+              textAlign: "center",
+              fontSize: "55px",
+              marginBottom: "5px",
+              fontWeight: "bold"
+            }}
+          >
+            R$ 99,90
+          </h3>
+
+          <p
+            style={{
+              textAlign: "center",
+              color: "#aaa",
+              marginBottom: "28px"
+            }}
+          >
+            mensal
+          </p>
+
+          <div
+            style={{
+              background:
+                "rgba(212,175,55,0.08)",
+
+              border:
+                "1px solid rgba(212,175,55,0.15)",
+
+              borderRadius: "20px",
+
+              padding: "18px",
+
+              marginBottom: "25px",
+
+              textAlign: "center",
+
+              lineHeight: "30px",
+
+              color: "#f1f1f1",
+
+              fontSize: "16px"
+            }}
+          >
+            ✂️ Cortes que normalmente sairiam por R$ 30
+            <br />
+            com o VIP saem por apenas
+            <br />
+
+            <span
+              style={{
+                color: "#d4af37",
+                fontSize: "28px",
+                fontWeight: "bold"
+              }}
+            >
+              R$ 24,99
+            </span>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gap: "14px",
+              marginBottom: "35px",
+              color: "#ddd",
+              lineHeight: "28px"
+            }}
+          >
+
+            <div>
+              ✅ Fique alinhado toda semana
+            </div>
+
+            <div>
+              ✅ Atendimento VIP prioritário
+            </div>
+
+            <div>
+              ✅ 4 atendimentos por mês
+            </div>
+
+            <div>
+              ✅ Seu horário reservado primeiro
+            </div>
+
+            <div>
+              ✅ Economia todo mês
+            </div>
+
+          </div>
+
+          <button
+            onClick={() =>
+              abrirCadastro(
+                "Plano Prata"
+              )
+            }
+
+            style={{
+              width: "100%",
+
+              background: "#d4af37",
+
+              color: "#000",
+
+              padding: "20px",
+
+              borderRadius: "20px",
+
+              border: "none",
+
+              fontWeight: "bold",
+
+              fontSize: "20px",
+
+              cursor: "pointer",
+
+              boxShadow:
+                "0 0 25px rgba(212,175,55,0.30)"
+            }}
+          >
+            Assinar Plano
+          </button>
+
+        </div>
+
+        {/* PLANO OURO */}
+
+        <div
+          style={{
+            background:
+              "linear-gradient(180deg,#1a1a1a,#000)",
+
+            border:
+              "1px solid #d4af37",
+
+            borderRadius: "30px",
+
+            padding: "35px",
+
+            boxShadow:
+              "0 0 35px rgba(212,175,55,0.18)"
+          }}
+        >
+
+          <div
+            style={{
+              background:
+                "#d4af37",
+
+              color: "#000",
+
+              width: "fit-content",
+
+              padding:
+                "8px 14px",
+
+              borderRadius: "999px",
+
+              fontWeight: "bold",
+
+              fontSize: "13px",
+
+              marginBottom: "20px"
+            }}
+          >
+            PREMIUM 👑
+          </div>
+
+          <h2
+            style={{
+              color: "#d4af37",
+              fontSize: "38px",
+              textAlign: "center",
+              marginBottom: "10px"
+            }}
+          >
+            Plano Ouro
+          </h2>
+
+          <h3
+            style={{
+              textAlign: "center",
+              fontSize: "55px",
+              marginBottom: "5px",
+              fontWeight: "bold"
+            }}
+          >
+            R$ 149,90
+          </h3>
+
+          <p
+            style={{
+              textAlign: "center",
+              color: "#aaa",
+              marginBottom: "28px"
+            }}
+          >
+            mensal
+          </p>
+
+          <div
+            style={{
+              background:
+                "rgba(212,175,55,0.08)",
+
+              border:
+                "1px solid rgba(212,175,55,0.15)",
+
+              borderRadius: "20px",
+
+              padding: "18px",
+
+              marginBottom: "25px",
+
+              textAlign: "center",
+
+              lineHeight: "30px",
+
+              color: "#f1f1f1",
+
+              fontSize: "16px"
+            }}
+          >
+            💎 Corte + barba + sobrancelha
+            <br />
+            que normalmente sairia por R$ 60
+            <br />
+            com o VIP sai por apenas
+
+            <br />
+
+            <span
+              style={{
+                color: "#d4af37",
+                fontSize: "28px",
+                fontWeight: "bold"
+              }}
+            >
+              R$ 37,50
+            </span>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gap: "14px",
+              marginBottom: "35px",
+              color: "#ddd",
+              lineHeight: "28px"
+            }}
+          >
+
+            <div>
+              ✅ Atendimento completo semanal
+            </div>
+
+            <div>
+              ✅ Prioridade máxima nos horários
+            </div>
+
+            <div>
+              ✅ Aparência sempre alinhada
+            </div>
+
+            <div>
+              ✅ Atendimento premium VIP
+            </div>
+
+            <div>
+              ✅ Economia em todos os atendimentos
+            </div>
+
+          </div>
+
+          <button
+            onClick={() =>
+              abrirCadastro(
+                "Plano Ouro"
+              )
+            }
+
+            style={{
+              width: "100%",
+
+              background: "#d4af37",
+
+              color: "#000",
+
+              padding: "20px",
+
+              borderRadius: "20px",
+
+              border: "none",
+
+              fontWeight: "bold",
+
+              fontSize: "20px",
+
+              cursor: "pointer",
+
+              boxShadow:
+                "0 0 25px rgba(212,175,55,0.35)"
+            }}
+          >
+            Assinar Plano
+          </button>
+
+        </div>
+
+      </div>
+
+    </main>
+  )
+}

@@ -52,6 +52,11 @@ export default function HorariosAdmin() {
     "Sábado"
   ])
 
+  const [
+  barbeiroSelecionado,
+  setBarbeiroSelecionado
+] = useState("Breno")
+
   const diasSemana = [
 
     "Segunda",
@@ -72,10 +77,10 @@ export default function HorariosAdmin() {
 
         const docRef =
           doc(
-            db,
-            "configuracoes",
-            "horarios"
-          )
+  db,
+  "configuracoes",
+  `horarios_${barbeiroSelecionado}`
+)
 
         const docSnap =
           await getDoc(docRef)
@@ -121,7 +126,7 @@ export default function HorariosAdmin() {
 
     carregarConfiguracoes()
 
-  }, [])
+ }, [barbeiroSelecionado])
 
   async function salvarConfiguracoes() {
 
@@ -144,10 +149,10 @@ export default function HorariosAdmin() {
       await setDoc(
 
         doc(
-          db,
-          "configuracoes",
-          "horarios"
-        ),
+  db,
+  "configuracoes",
+  `horarios_${barbeiroSelecionado}`
+),
 
         config
 
@@ -235,6 +240,70 @@ export default function HorariosAdmin() {
       >
         Controle completo da agenda
       </p>
+
+      <div
+  style={{
+    display: "flex",
+    gap: "10px",
+    marginBottom: "20px"
+  }}
+>
+
+  <button
+    onClick={() =>
+      setBarbeiroSelecionado("Breno")
+    }
+
+    style={{
+      flex: 1,
+      padding: "14px",
+      borderRadius: "14px",
+      border: "none",
+      fontWeight: "bold",
+      cursor: "pointer",
+
+      background:
+        barbeiroSelecionado === "Breno"
+          ? "#d4af37"
+          : "#1a1a1a",
+
+      color:
+        barbeiroSelecionado === "Breno"
+          ? "#000"
+          : "#fff"
+    }}
+  >
+    Breno
+  </button>
+
+  <button
+    onClick={() =>
+      setBarbeiroSelecionado("Daniel")
+    }
+
+    style={{
+      flex: 1,
+      padding: "14px",
+      borderRadius: "14px",
+      border: "none",
+      fontWeight: "bold",
+      cursor: "pointer",
+
+      background:
+        barbeiroSelecionado === "Daniel"
+          ? "#d4af37"
+          : "#1a1a1a",
+
+      color:
+        barbeiroSelecionado === "Daniel"
+          ? "#000"
+          : "#fff"
+    }}
+  >
+    Daniel
+  </button>
+
+</div>
 
       <div
         style={{

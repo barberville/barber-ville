@@ -153,12 +153,17 @@ export default function Horario() {
 
     async function carregarConfiguracoes() {
 
+      const barbeiro =
+  localStorage.getItem(
+    "barbeiroSelecionado"
+  )
+
       const docRef =
         doc(
-          db,
-          "configuracoes",
-          "horarios"
-        )
+  db,
+  "configuracoes",
+  `horarios_${barbeiro}`
+)
 
       const docSnap =
         await getDoc(docRef)

@@ -1,41 +1,51 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect } from "react"
 
-export default function Login() {
+import {
+  collection,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc
+} from "firebase/firestore"
 
-  const [email, setEmail] =
-    useState("")
+import {
+  onAuthStateChanged
+} from "firebase/auth"
 
-  const [senha, setSenha] =
-    useState("")
+import {
+  db,
+  auth
+} from "../../firebase"
 
-  function entrar() {
+import AdminCard from "../../components/AdminCard"
 
-    if (
-      email ===
-        "admin@barberville.com"
-      &&
-      senha === "123456"
-    ) {
+import AgendamentoCard from "../../components/AgendamentoCard"
 
-      localStorage.setItem(
-        "adminLogado",
-        "true"
+export default function Admin() {
+
+  useEffect(() => {
+
+    const unsubscribe =
+      onAuthStateChanged(
+        auth,
+        (usuario) => {
+
+          if (!usuario) {
+
+            window.location.href =
+              "/login"
+
+          }
+
+        }
       )
 
-      window.location.href =
-        "/admin"
+    return () =>
+      unsubscribe()
 
-    } else {
-
-      alert(
-        "Email ou senha incorretos"
-      )
-
-    }
-
-  }
+  }, [])
 
   return (
 
@@ -43,114 +53,31 @@ export default function Login() {
       style={{
         minHeight: "100vh",
         background: "#111",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        color: "#fff",
         padding: 20
       }}
     >
 
+      <h1
+        style={{
+          color: "gold",
+          marginBottom: 30,
+          textAlign: "center"
+        }}
+      >
+        Painel Admin
+      </h1>
+
       <div
         style={{
-          background: "#222",
-          padding: 40,
-          borderRadius: 20,
-          width: "100%",
-          maxWidth: 380
+          display: "grid",
+          gap: 20
         }}
       >
 
-        <h1
-          style={{
-            color: "gold",
-            textAlign: "center",
-            marginBottom: 30
-          }}
-        >
-          Barber Ville
-        </h1>
+        <AdminCard />
 
-        <input
-          type="email"
-
-          placeholder="Seu email"
-
-          value={email}
-
-          onChange={(e) =>
-            setEmail(
-              e.target.value
-            )
-          }
-
-          style={{
-            width: "100%",
-            padding: 15,
-            marginBottom: 20,
-            borderRadius: 10,
-            border: "none"
-          }}
-        />
-
-        <input
-          type="password"
-
-          placeholder="Sua senha"
-
-          value={senha}
-
-          onChange={(e) =>
-            setSenha(
-              e.target.value
-            )
-          }
-
-          style={{
-            width: "100%",
-            padding: 15,
-            marginBottom: 20,
-            borderRadius: 10,
-            border: "none"
-          }}
-        />
-
-        <button
-          onClick={entrar}
-
-          style={{
-            width: "100%",
-            padding: 15,
-            background: "#25D366",
-            color: "#fff",
-            border: "none",
-            borderRadius: 10,
-            cursor: "pointer",
-            fontWeight: "bold",
-            marginBottom: 15
-          }}
-        >
-          Entrar Admin
-        </button>
-
-        <button
-          onClick={() =>
-            window.location.href =
-              "/admin/daniel"
-          }
-
-          style={{
-            width: "100%",
-            padding: 15,
-            background: "#d4af37",
-            color: "#111",
-            border: "none",
-            borderRadius: 10,
-            cursor: "pointer",
-            fontWeight: "bold"
-          }}
-        >
-          Login Daniel
-        </button>
+        <AgendamentoCard />
 
       </div>
 

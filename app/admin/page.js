@@ -12,7 +12,15 @@ import {
   updateDoc
 } from "firebase/firestore"
 
-import { db } from "../../firebase"
+import {
+  onAuthStateChanged,
+  signOut
+} from "firebase/auth"
+
+import { 
+  db,
+  auth
+} from "../../firebase"
 
 import AdminCard from "../../components/AdminCard"
 
@@ -73,19 +81,6 @@ export default function Admin() {
   }, [])
 
   useEffect(() => {
-
-    const adminLogado =
-      localStorage.getItem(
-        "adminLogado"
-      )
-
-    if (
-      adminLogado !== "true"
-    ) {
-
-      router.push("/")
-
-    }
 
     const unsubscribe =
       onSnapshot(
@@ -512,16 +507,22 @@ export default function Admin() {
         </h1>
 
         <button
-          onClick={() => {
+          onClick={async () => {
 
-            localStorage.removeItem(
-              "adminLogado"
-            )
+  await signOut(auth)
 
-            window.location.href =
-              "/"
+  localStorage.removeItem(
+    "adminLogado"
+  )
 
-          }}
+  localStorage.removeItem(
+    "danielLogado"
+  )
+
+  window.location.href =
+    "/"
+
+}}
 
           style={{
             background: "#d4af37",

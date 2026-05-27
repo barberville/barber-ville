@@ -60,6 +60,41 @@ export default function Horario() {
   const horarioAtual =
     `${String(horaAtual).padStart(2, "0")}:${String(minutoAtual).padStart(2, "0")}`
 
+  const diasOrdem = [
+    "Domingo",
+    "Segunda",
+    "Terça",
+    "Quarta",
+    "Quinta",
+    "Sexta",
+    "Sábado"
+  ]
+
+  const hojeNome =
+    diasOrdem[
+      hoje.getDay()
+    ]
+
+  function filtrarDiasFuturos(
+    dias
+  ) {
+
+    const indexHoje =
+
+      diasOrdem.indexOf(
+        hojeNome
+      )
+
+    return dias.filter(
+      (dia) =>
+
+        diasOrdem.indexOf(
+          dia
+        ) >= indexHoje
+    )
+
+  }
+
   function gerarHorarios(
     inicio,
     fim,
@@ -173,15 +208,33 @@ export default function Horario() {
         )
 
         const diasVisiveis =
-          config.diasAtivos
+
+          filtrarDiasFuturos(
+
+            config.diasAtivos || [
+              "Segunda",
+              "Terça",
+              "Quarta",
+              "Quinta",
+              "Sexta",
+              "Sábado"
+            ]
+
+          )
 
         setDiasSemana(
           diasVisiveis
         )
 
-        setDiaSelecionado(
-          diasVisiveis[0]
-        )
+        if (
+          diasVisiveis.length > 0
+        ) {
+
+          setDiaSelecionado(
+            diasVisiveis[0]
+          )
+
+        }
 
       }
 
@@ -273,18 +326,6 @@ export default function Horario() {
   function horarioPassou(
     horario
   ) {
-
-    const hojeNome = [
-
-      "Domingo",
-      "Segunda",
-      "Terça",
-      "Quarta",
-      "Quinta",
-      "Sexta",
-      "Sábado"
-
-    ][new Date().getDay()]
 
     if (
       diaSelecionado !==
@@ -521,7 +562,7 @@ export default function Horario() {
         }}
       >
 
-        {diasSemana.map(
+        {diasSemana?.map(
           (dia, index) => (
 
           <button

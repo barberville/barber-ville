@@ -6,6 +6,10 @@ export default function AgendamentoCard({
 
 }) {
 
+  if (!item) {
+    return null
+  }
+
   return (
 
     <div
@@ -38,14 +42,14 @@ export default function AgendamentoCard({
 
         background:
 
-          item.status ===
+          item?.status ===
             "concluido"
 
             ? "rgba(0,120,0,0.35)"
 
             :
 
-            item.status ===
+            item?.status ===
               "faltou"
 
               ? "rgba(180,0,0,0.35)"
@@ -73,23 +77,23 @@ export default function AgendamentoCard({
       <div>
 
         <p style={{ fontSize: 14 }}>
-          👤 {item.nome}
+          👤 {item?.nome || "Cliente"}
         </p>
 
         <p style={{ fontSize: 14 }}>
-          📱 {item.whatsapp}
+          📱 {item?.whatsapp || "Não informado"}
         </p>
 
         <p style={{ fontSize: 14 }}>
-          💈 {item.barbeiro}
+          💈 {item?.barbeiro || "Não informado"}
         </p>
 
         <p style={{ fontSize: 14 }}>
-          📅 {item.dia}
+          📅 {item?.dia || "Não informado"}
         </p>
 
         <p style={{ fontSize: 14 }}>
-          ⏰ {item.hora}
+          ⏰ {item?.hora || "Não informado"}
         </p>
 
         <p
@@ -101,17 +105,28 @@ export default function AgendamentoCard({
           }}
         >
           ✂️ {
-            item.servicos
-            ?.map(
-              (servico) =>
-                servico.nome
-            )
-            .join(", ")
+
+            item?.servicos?.length > 0
+
+              ?
+
+              item?.servicos
+                ?.map(
+                  (servico) =>
+                    servico?.nome
+                )
+                .join(", ")
+
+              :
+
+              "Nenhum serviço"
+
           }
         </p>
 
         {
-          item.produtos
+
+          item?.produtos
           ?.length > 0 && (
 
             <p
@@ -123,12 +138,14 @@ export default function AgendamentoCard({
               }}
             >
               🛍️ {
-                item.produtos
-                ?.map(
-                  (produto) =>
-                    produto.nome
-                )
-                .join(", ")
+
+                item?.produtos
+                  ?.map(
+                    (produto) =>
+                      produto?.nome
+                  )
+                  .join(", ")
+
               }
             </p>
 
@@ -144,15 +161,21 @@ export default function AgendamentoCard({
           }}
         >
 
-          {item.status ===
-            "concluido"
-            ? "🟢 Concluído"
+          {
 
-            : item.status ===
-              "faltou"
-              ? "🔴 Não Compareceu"
+            item?.status ===
+              "concluido"
 
-              : "🟡 Agendado"}
+              ? "🟢 Concluído"
+
+              : item?.status ===
+                "faltou"
+
+                ? "🔴 Não Compareceu"
+
+                : "🟡 Agendado"
+
+          }
 
         </p>
 
@@ -165,7 +188,9 @@ export default function AgendamentoCard({
           }}
         >
           💰 R$
-          {Number(item.total || 0).toFixed(2)}
+          {Number(
+            item?.total || 0
+          ).toFixed(2)}
         </p>
 
       </div>
@@ -181,7 +206,7 @@ export default function AgendamentoCard({
         <button
           onClick={() =>
             alterarStatus(
-              item.id,
+              item?.id,
               "concluido",
               item
             )
@@ -204,7 +229,7 @@ export default function AgendamentoCard({
         <button
           onClick={() =>
             alterarStatus(
-              item.id,
+              item?.id,
               "faltou",
               item
             )
@@ -227,7 +252,7 @@ export default function AgendamentoCard({
         <button
           onClick={() =>
             excluirAgendamento(
-              item.id
+              item?.id
             )
           }
 

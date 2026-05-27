@@ -8,6 +8,10 @@ import {
   getStorage
 } from "firebase/storage"
 
+import {
+  getAuth
+} from "firebase/auth"
+
 const firebaseConfig = {
 
   apiKey:
@@ -40,7 +44,11 @@ const db =
 const storage =
   getStorage(app)
 
+const auth =
+  getAuth(app)
+
 export {
   db,
-  storage
+  storage,
+  auth
 }

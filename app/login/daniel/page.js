@@ -2,14 +2,6 @@
 
 import { useState } from "react"
 
-import {
-  signInWithEmailAndPassword
-} from "firebase/auth"
-
-import {
-  auth
-} from "../../../firebase"
-
 export default function LoginDaniel() {
 
   const [email, setEmail] =
@@ -18,48 +10,27 @@ export default function LoginDaniel() {
   const [senha, setSenha] =
     useState("")
 
-  const [carregando,
-    setCarregando] =
-      useState(false)
+  function entrar() {
 
-  async function entrar() {
-
-    if (!email || !senha) {
-
-      alert(
-        "Preencha email e senha"
-      )
-
-      return
-    }
-
-    try {
-
-      setCarregando(true)
-
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        senha
-      )
+    if (
+      email === "daniel@barberville.com"
+      &&
+      senha === "123456"
+    ) {
 
       localStorage.setItem(
-        "danielLogado",
-        "true"
+        "usuarioLogado",
+        "Daniel"
       )
 
       window.location.href =
-        "/admin"
+        "/admin/daniel"
 
-    } catch (error) {
+    } else {
 
       alert(
         "Email ou senha incorretos"
       )
-
-    } finally {
-
-      setCarregando(false)
 
     }
 
@@ -69,89 +40,46 @@ export default function LoginDaniel() {
 
     <main
       style={{
-
         minHeight: "100vh",
-
-        backgroundImage:
-          "linear-gradient(rgba(0,0,0,0.82), rgba(0,0,0,0.88)), url('/logo.png')",
-
-        backgroundSize: "cover",
-
-        backgroundPosition:
-          "center",
-
+        background: "#0a0a0a",
         display: "flex",
-
-        justifyContent:
-          "center",
-
-        alignItems:
-          "center",
-
-        padding: 20
+        justifyContent: "center",
+        alignItems: "center",
+        color: "#fff"
       }}
     >
 
       <div
         style={{
-
-          width: "100%",
-
-          maxWidth: 420,
-
-          background:
-            "rgba(0,0,0,0.45)",
-
-          border:
-            "2px solid #d4af37",
-
-          borderRadius: 20,
-
-          padding: 30,
-
-          backdropFilter:
-            "blur(10px)"
+          width: "350px",
+          padding: "30px",
+          border: "1px solid #d4af37",
+          borderRadius: "20px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px"
         }}
       >
 
         <h1
           style={{
-
             textAlign: "center",
-
-            color: "#d4af37",
-
-            marginBottom: 30
+            color: "#d4af37"
           }}
         >
           Login Daniel
         </h1>
 
         <input
-          type="email"
-
-          autoComplete="off"
-
           placeholder="Email"
-
           value={email}
-
-          onChange={(e) =>
-            setEmail(
-              e.target.value
-            )
+          onChange={(e)=>
+            setEmail(e.target.value)
           }
 
           style={{
-
-            width: "100%",
-
-            padding: 14,
-
-            marginBottom: 14,
-
-            borderRadius: 10,
-
+            padding: "14px",
+            borderRadius: "10px",
             border: "none"
           }}
         />
@@ -159,28 +87,17 @@ export default function LoginDaniel() {
         <input
           type="password"
 
-          autoComplete="new-password"
-
           placeholder="Senha"
 
           value={senha}
 
-          onChange={(e) =>
-            setSenha(
-              e.target.value
-            )
+          onChange={(e)=>
+            setSenha(e.target.value)
           }
 
           style={{
-
-            width: "100%",
-
-            padding: 14,
-
-            marginBottom: 20,
-
-            borderRadius: 10,
-
+            padding: "14px",
+            borderRadius: "10px",
             border: "none"
           }}
         />
@@ -188,40 +105,16 @@ export default function LoginDaniel() {
         <button
           onClick={entrar}
 
-          disabled={carregando}
-
           style={{
-
-            width: "100%",
-
-            padding: 14,
-
-            background:
-              "#d4af37",
-
-            color: "#000",
-
+            padding: "14px",
+            borderRadius: "10px",
             border: "none",
-
-            borderRadius: 10,
-
+            background: "#d4af37",
             fontWeight: "bold",
-
-            cursor: "pointer",
-
-            fontSize: 16,
-
-            opacity:
-              carregando
-                ? 0.7
-                : 1
+            cursor: "pointer"
           }}
         >
-          {
-            carregando
-              ? "Entrando..."
-              : "Entrar"
-          }
+          Entrar
         </button>
 
       </div>

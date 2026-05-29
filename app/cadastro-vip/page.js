@@ -2,14 +2,25 @@
 
 import { useEffect, useState } from "react"
 
-import { db } from "../../firebase"
+import {
+  createUserWithEmailAndPassword
+} from "firebase/auth"
 
 import {
   collection,
   addDoc
 } from "firebase/firestore"
 
+import {
+  db,
+  auth
+} from "../../firebase"
+
 export default function CadastroVip() {
+
+  const [loading,
+    setLoading] =
+      useState(false)
 
   const [nome, setNome] =
     useState("")
@@ -30,115 +41,115 @@ export default function CadastroVip() {
     useState("")
 
   const hoje =
-  new Date()
+    new Date()
 
-const dia =
-  hoje.getDate()
+  const dia =
+    hoje.getDate()
 
-let valorPlano =
-  99.90
+  let valorPlano =
+    99.90
 
-let servicos =
-  4
+  let servicos =
+    4
 
-let mensagemPlano =
-  ""
+  let mensagemPlano =
+    ""
 
-if (plano === "Plano Ouro") {
+  if (plano === "Plano Ouro") {
 
-  if (dia >= 28) {
+    if (dia >= 28) {
 
-    valorPlano = 50
+      valorPlano = 50
 
-    servicos = 1
+      servicos = 1
 
-    mensagemPlano =
-      "Você terá direito a 1 atendimento VIP Ouro até o próximo dia 5."
+      mensagemPlano =
+        "Você terá direito a 1 atendimento VIP Ouro até o próximo dia 5."
 
-  }
+    }
 
-  else if (dia >= 21 && dia <= 27) {
+    else if (dia >= 21 && dia <= 27) {
 
-    valorPlano = 85
+      valorPlano = 85
 
-    servicos = 2
+      servicos = 2
 
-    mensagemPlano =
-      "Plano Ouro proporcional 👑 Você terá direito a 2 atendimentos até o próximo dia 5."
+      mensagemPlano =
+        "Plano Ouro proporcional 👑 Você terá direito a 2 atendimentos até o próximo dia 5."
 
-  }
+    }
 
-  else if (dia >= 15 && dia <= 20) {
+    else if (dia >= 15 && dia <= 20) {
 
-    valorPlano = 125
+      valorPlano = 125
 
-    servicos = 3
+      servicos = 3
 
-    mensagemPlano =
-      "Plano Ouro proporcional 👑 Você terá direito a 3 atendimentos até o próximo dia 5."
+      mensagemPlano =
+        "Plano Ouro proporcional 👑 Você terá direito a 3 atendimentos até o próximo dia 5."
 
-  }
+    }
 
-  else {
+    else {
 
-    valorPlano = 149.90
+      valorPlano = 149.90
 
-    servicos = 4
+      servicos = 4
 
-    mensagemPlano =
-      "Plano Ouro completo 👑 Você terá direito aos 4 atendimentos do plano."
+      mensagemPlano =
+        "Plano Ouro completo 👑 Você terá direito aos 4 atendimentos do plano."
 
-  }
-
-}
-
-else {
-
-  if (dia >= 28) {
-
-    valorPlano = 30
-
-    servicos = 1
-
-    mensagemPlano =
-      "Você terá direito a 1 serviço até o próximo dia 5."
-
-  }
-
-  else if (dia >= 21) {
-
-    valorPlano = 55
-
-    servicos = 2
-
-    mensagemPlano =
-      "Plano VIP Entrada 👑 Você terá direito a 2 serviços até o próximo dia 5."
-
-  }
-
-  else if (dia >= 14) {
-
-    valorPlano = 85
-
-    servicos = 3
-
-    mensagemPlano =
-      "Plano proporcional 👑 Você terá direito a 3 serviços até o próximo dia 5."
+    }
 
   }
 
   else {
 
-    valorPlano = 99.90
+    if (dia >= 28) {
 
-    servicos = 4
+      valorPlano = 30
 
-    mensagemPlano =
-      "Plano VIP completo 👑"
+      servicos = 1
+
+      mensagemPlano =
+        "Você terá direito a 1 serviço até o próximo dia 5."
+
+    }
+
+    else if (dia >= 21) {
+
+      valorPlano = 55
+
+      servicos = 2
+
+      mensagemPlano =
+        "Plano VIP Entrada 👑 Você terá direito a 2 serviços até o próximo dia 5."
+
+    }
+
+    else if (dia >= 14) {
+
+      valorPlano = 85
+
+      servicos = 3
+
+      mensagemPlano =
+        "Plano proporcional 👑 Você terá direito a 3 serviços até o próximo dia 5."
+
+    }
+
+    else {
+
+      valorPlano = 99.90
+
+      servicos = 4
+
+      mensagemPlano =
+        "Plano VIP completo 👑"
+
+    }
 
   }
-
-}
 
   useEffect(() => {
 
@@ -161,6 +172,7 @@ else {
         "/planos"
 
       return
+
     }
 
     setBarbeiro(
@@ -176,10 +188,15 @@ else {
   async function cadastrar() {
 
     if (
+
       nome.trim() === "" ||
+
       whatsapp.trim() === "" ||
+
       email.trim() === "" ||
+
       senha.trim() === ""
+
     ) {
 
       alert(
@@ -187,9 +204,26 @@ else {
       )
 
       return
+
     }
 
     try {
+
+      setLoading(true)
+
+      // CRIAR LOGIN FIREBASE
+
+      const usuarioCriado =
+
+        await createUserWithEmailAndPassword(
+
+          auth,
+          email,
+          senha
+
+        )
+
+      // SALVAR CLIENTE VIP
 
       await addDoc(
 
@@ -199,11 +233,18 @@ else {
         ),
 
         {
+
+          uid:
+            usuarioCriado.user.uid,
+
           nome,
+
           whatsapp,
+
           email,
-          senha,
+
           barbeiro,
+
           plano,
 
           aprovado: false,
@@ -239,13 +280,17 @@ else {
             return data.toISOString()
 
           })()
+
         }
 
       )
 
       localStorage.setItem(
+
         "clienteVipLogado",
+
         email
+
       )
 
       alert(
@@ -259,9 +304,26 @@ else {
 
       console.log(erro)
 
-      alert(
-        "Erro ao criar conta."
-      )
+      if (
+        erro.code ===
+        "auth/email-already-in-use"
+      ) {
+
+        alert(
+          "Esse email já possui cadastro."
+        )
+
+      } else {
+
+        alert(
+          "Erro ao criar conta."
+        )
+
+      }
+
+    } finally {
+
+      setLoading(false)
 
     }
 
@@ -552,6 +614,8 @@ else {
         <button
           onClick={cadastrar}
 
+          disabled={loading}
+
           style={{
             width: "100%",
 
@@ -561,7 +625,8 @@ else {
 
             border: "none",
 
-            background: "#d4af37",
+            background:
+              "linear-gradient(90deg,#d4af37,#ffdf70)",
 
             color: "#000",
 
@@ -574,16 +639,28 @@ else {
             marginTop: "10px",
 
             boxShadow:
-              "0 0 25px rgba(212,175,55,0.35)"
+              "0 0 25px rgba(212,175,55,0.35)",
+
+            opacity:
+              loading
+                ? 0.7
+                : 1
           }}
         >
-          Criar Conta VIP
+          {
+
+            loading
+              ? "Criando conta..."
+              : "Criar Conta VIP"
+
+          }
         </button>
 
       </div>
 
     </main>
   )
+
 }
 
 const input = {

@@ -30,6 +30,10 @@ export default function Admin() {
 
   const router = useRouter()
 
+  const [usuarioLogado,
+  setUsuarioLogado] =
+    useState("")
+
   const [agendamentos,
     setAgendamentos] =
       useState([])
@@ -82,6 +86,34 @@ export default function Admin() {
 
   useEffect(() => {
 
+  const admin =
+    localStorage.getItem(
+      "adminLogado"
+    )
+
+  const daniel =
+    localStorage.getItem(
+      "danielLogado"
+    )
+
+  if (admin) {
+
+    setUsuarioLogado(
+      "Breno"
+    )
+
+  } else if (daniel) {
+
+    setUsuarioLogado(
+      "Daniel"
+    )
+
+  }
+
+}, [])
+
+  useEffect(() => {
+
     const unsubscribe =
       onSnapshot(
 
@@ -117,44 +149,81 @@ export default function Admin() {
 
   useEffect(() => {
 
-    const listaVip =
-      JSON.parse(
+  const unsubscribe =
+    onSnapshot(
 
-        localStorage.getItem(
-          "clientesVip"
-        ) || "[]"
+      collection(
+        db,
+        "clientesVip"
+      ),
 
-      )
+      (snapshot) => {
 
-    setClientesVip(listaVip)
+        const lista = []
 
-  }, [])
+        snapshot.forEach(
+          (docItem) => {
 
-  function liberarVip(index) {
+            lista.push({
+              id: docItem.id,
+              ...docItem.data()
+            })
 
-    const novaLista =
-      [...clientesVip]
+          }
+        )
 
-    novaLista[index].aprovado =
-      true
+        setClientesVip(
+          lista
+        )
 
-    novaLista[index]
-      .pagamentoConfirmado =
-        true
+      }
 
-    localStorage.setItem(
-      "clientesVip",
-      JSON.stringify(
-        novaLista
-      )
     )
 
-    setClientesVip(novaLista)
+  return () =>
+    unsubscribe()
+
+}, [])
+
+async function liberarVip(id) {
+
+  try {
+
+    await updateDoc(
+
+      doc(
+        db,
+        "clientesVip",
+        id
+      ),
+
+      {
+
+        aprovado: true,
+
+        pagamentoConfirmado: true
+
+      }
+
+    )
 
     alert(
       "Cliente VIP liberado!"
     )
+
+  } catch (erro) {
+
+    console.log(erro)
+
+    alert(
+      "Erro ao liberar VIP."
+    )
+
   }
+
+}
+
+    
 
   async function excluirAgendamento(id) {
 
@@ -379,43 +448,85 @@ export default function Admin() {
     ]
 
   const faturamentoHoje =
-    agendamentosMes
+  agendamentosMes
 
-      .filter(
-        (item) =>
+    .filter(
+      (item) => {
+
+        const barbeiroMatch =
+
+          usuarioLogado === "Breno"
+
+            ? true
+
+            : item.barbeiro ===
+              usuarioLogado
+
+        return (
+
           item.status ===
           "concluido"
+
           &&
+
           item.dia ===
           hojeNome
-      )
 
-      .reduce(
-        (acc, item) =>
-          acc +
-          Number(
-            item.total || 0
-          ),
-        0
-      )
+          &&
+
+          barbeiroMatch
+
+        )
+
+      }
+    )
+
+    .reduce(
+      (acc, item) =>
+        acc +
+        Number(
+          item.total || 0
+        ),
+      0
+    )
 
   const faturamentoSemana =
-    agendamentosMes
+  agendamentosMes
 
-      .filter(
-        (item) =>
+    .filter(
+      (item) => {
+
+        const barbeiroMatch =
+
+          usuarioLogado === "Breno"
+
+            ? true
+
+            : item.barbeiro ===
+              usuarioLogado
+
+        return (
+
           item.status ===
           "concluido"
-      )
 
-      .reduce(
-        (acc, item) =>
-          acc +
-          Number(
-            item.total || 0
-          ),
-        0
-      )
+          &&
+
+          barbeiroMatch
+
+        )
+
+      }
+    )
+
+    .reduce(
+      (acc, item) =>
+        acc +
+        Number(
+          item.total || 0
+        ),
+      0
+    )
 
   const totalClientes =
     agendamentosMes.length
@@ -436,28 +547,77 @@ export default function Admin() {
 
   const solicitacoes =
 
-    clientesVip.filter(
-      (cliente) =>
+  clientesVip.filter(
+    (cliente) => {
+
+      const barbeiroMatch =
+
+        usuarioLogado === "Breno"
+
+          ? true
+
+          : cliente.barbeiro ===
+            usuarioLogado
+
+      return (
 
         cliente.pagamentoConfirmado &&
-        !cliente.aprovado
-    )
+        !cliente.aprovado &&
+        barbeiroMatch
+
+      )
+
+    }
+  )
 
   const clientesAtivos =
 
-    clientesVip.filter(
-      (cliente) =>
-        cliente.aprovado
-    )
+  clientesVip.filter(
+    (cliente) => {
+
+      const barbeiroMatch =
+
+        usuarioLogado === "Breno"
+
+          ? true
+
+          : cliente.barbeiro ===
+            usuarioLogado
+
+      return (
+
+        cliente.aprovado &&
+        barbeiroMatch
+
+      )
+
+    }
+  )
 
   const clientesAtrasados =
 
-    clientesVip.filter(
-      (cliente) =>
+  clientesVip.filter(
+    (cliente) => {
+
+      const barbeiroMatch =
+
+        usuarioLogado === "Breno"
+
+          ? true
+
+          : cliente.barbeiro ===
+            usuarioLogado
+
+      return (
 
         cliente.aprovado &&
-        !cliente.pagamentoConfirmado
-    )
+        !cliente.pagamentoConfirmado &&
+        barbeiroMatch
+
+      )
+
+    }
+  )
 
   return (
 
@@ -768,7 +928,7 @@ export default function Admin() {
 
                 <button
                   onClick={() =>
-                    liberarVip(index)
+                    liberarVip(cliente.id)
                   }
 
                   style={{
@@ -1175,6 +1335,7 @@ export default function Admin() {
 
     </main>
   )
+
 }
 
 function DashboardCard({

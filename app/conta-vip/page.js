@@ -203,11 +203,17 @@ console.log("EMAIL FIREBASE:", cliente.email)
 
     function falarWhatsapp() {
 
-    window.open(
-      "https://wa.me/5583991161032",
-      "_blank"
-    )
-  }
+  const numero =
+
+    barbeiro === "Daniel"
+      ? "5583999999999"
+      : "5583991161032"
+
+  window.open(
+    `https://wa.me/${numero}`,
+    "_blank"
+  )
+}
 
   async function confirmarPagamento() {
 
@@ -316,9 +322,14 @@ const resposta = await fetch(
 console.log("RESPOSTA:", resposta)
 
     const data =
-      await resposta.json()
+  await resposta.json()
 
-    console.log(data)
+console.log(data)
+
+console.log(
+  "PAYMENT ID:",
+  data.payment_id
+)
 
     // VALIDAR PIX
 
@@ -328,24 +339,27 @@ console.log("RESPOSTA:", resposta)
 ) {
 
   const qr = {
-    qr_code:
-      data.qr_code,
-
-    qr_code_base64:
-      data.qr_code_base64
-  }
+  payment_id: data.payment_id,
+  qr_code: data.qr_code,
+  qr_code_base64: data.qr_code_base64
+}
   localStorage.setItem(
-    "pixQrCode",
-    qr.qr_code_base64
-  )
+  "pixQrCode",
+  qr.qr_code_base64
+)
 
-  localStorage.setItem(
-    "pixCopiaCola",
-    qr.qr_code
-  )
+localStorage.setItem(
+  "pixCopiaCola",
+  qr.qr_code
+)
 
-  window.location.href =
-    "/pagamento-vip"
+localStorage.setItem(
+  "paymentId",
+  data.payment_id
+)
+
+window.location.href =
+  "/pagamento-vip"
 
 } else {
 
@@ -393,6 +407,56 @@ console.log("RESPOSTA:", resposta)
     >
 
       {/* TOPO */}
+
+<div
+  style={{
+    display: "flex",
+
+    justifyContent:
+      "space-between",
+
+    alignItems: "center",
+
+    marginBottom: "20px"
+  }}
+>
+
+  <div />
+
+  <button
+    onClick={() => {
+
+      localStorage.removeItem(
+        "clienteVipLogado"
+      )
+
+      window.location.href =
+        "/login-vip"
+
+    }}
+
+    style={{
+      background:
+        "rgba(255,255,255,0.08)",
+
+      color: "#fff",
+
+      border:
+        "1px solid rgba(255,255,255,0.10)",
+
+      padding: "10px 16px",
+
+      borderRadius: "14px",
+
+      cursor: "pointer",
+
+      fontWeight: "bold"
+    }}
+  >
+    Sair
+  </button>
+
+</div>
 
       <div
         style={{
@@ -534,6 +598,47 @@ console.log("RESPOSTA:", resposta)
 
         </div>
 
+{vipVencido && (
+
+  <div
+    style={{
+      marginTop: "20px"
+    }}
+  >
+
+    <button
+      onClick={confirmarPagamento}
+
+      style={{
+        width: "100%",
+
+        background:
+          "linear-gradient(90deg,#ff3b30,#ff6b60)",
+
+        color: "#fff",
+
+        padding: "18px",
+
+        borderRadius: "20px",
+
+        border: "none",
+
+        fontWeight: "bold",
+
+        fontSize: "18px",
+
+        cursor: "pointer"
+      }}
+    >
+      🔄 Renovar VIP
+    </button>
+
+  </div>
+
+)}
+
+{/* GRID */}
+
         {/* GRID */}
 
         <div
@@ -564,7 +669,11 @@ console.log("RESPOSTA:", resposta)
             >
 
               <img
-                src="/breno.jpeg"
+  src={
+    barbeiro === "Daniel"
+      ? "/daniel.jpeg"
+      : "/breno.jpeg"
+  }
 
                 style={{
                   width: "42px",
@@ -678,6 +787,25 @@ console.log("RESPOSTA:", resposta)
             <h2 style={value}>
               📅 {diasRestantes} dias
             </h2>
+
+            {diasRestantes <= 5 &&
+ !vipVencido && (
+
+  <p
+    style={{
+      color: "#ff3b30",
+
+      marginTop: "10px",
+
+      fontSize: "13px",
+
+      lineHeight: "22px"
+    }}
+  >
+    ⚠️ Seu VIP está próximo do vencimento.
+  </p>
+
+)}
 
           </div>
 
@@ -854,7 +982,9 @@ console.log("RESPOSTA:", resposta)
 
         {/* AGENDAMENTO */}
 
-        {vipAprovado && (
+        {vipAprovado &&
+ restantes > 0 &&
+ !vipVencido && (
 
           <div
             style={{
@@ -891,6 +1021,51 @@ console.log("RESPOSTA:", resposta)
             >
               📅 Agendar horário
             </button>
+
+{restantes <= 0 && (
+
+  <div
+    style={{
+      marginTop: "18px",
+
+      background:
+        "rgba(255,59,48,0.12)",
+
+      border:
+        "1px solid rgba(255,59,48,0.25)",
+
+      borderRadius: "20px",
+
+      padding: "18px",
+
+      textAlign: "center"
+    }}
+  >
+
+    <h2
+      style={{
+        color: "#ff3b30"
+      }}
+    >
+      ❌ Serviços encerrados
+    </h2>
+
+    <p
+      style={{
+        color: "#ccc",
+
+        marginTop: "10px",
+
+        lineHeight: "28px"
+      }}
+    >
+      Você utilizou todos os serviços
+      do seu plano VIP.
+    </p>
+
+  </div>
+
+)}
 
           </div>
 

@@ -80,6 +80,11 @@ export default function ContaVip() {
         "clienteVipLogado"
       )
 
+      console.log(
+  "EMAIL SALVO:",
+  emailLogado
+)
+
     if (!emailLogado) {
 
       window.location.href =
@@ -99,6 +104,11 @@ console.log("EMAIL LOGIN:", emailLogado)
 const querySnapshot =
   await getDocs(q)
 
+console.log(
+  "QUANTIDADE DE DOCUMENTOS:",
+  querySnapshot.docs.length
+)
+
 if (querySnapshot.empty) {
 
   alert(
@@ -113,6 +123,11 @@ if (querySnapshot.empty) {
 
 const cliente =
   querySnapshot.docs[0].data()
+
+  console.log(
+  "CLIENTE CARREGADO:",
+  cliente
+)
 
   setClienteData(cliente)
 

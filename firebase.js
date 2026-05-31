@@ -15,7 +15,7 @@ import {
 const firebaseConfig = {
 
   apiKey:
-    "AIzaSyDJGcCDrpoSi5aLqdcYvD1bkWG_9zXP8-o",
+    "AIzaSyDJGCcDrpoSi5aLqdcYvD1bkWG_9zXP8-o",
 
   authDomain:
     "barber-ville-3c1c9.firebaseapp.com",

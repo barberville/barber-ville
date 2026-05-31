@@ -82,7 +82,7 @@ export default function Planos() {
         style={{
           textAlign: "center",
           color: "#d4af37",
-          fontSize: "42px",
+          fontSize: "32px",
           marginBottom: "10px",
           fontWeight: "bold"
         }}
@@ -94,10 +94,10 @@ export default function Planos() {
         style={{
           textAlign: "center",
           color: "#ccc",
-          fontSize: "17px",
-          lineHeight: "30px",
+          fontSize: "14px",
+          lineHeight: "22px",
           maxWidth: "600px",
-          margin: "0 auto 40px auto"
+          margin: "0 auto 20px auto"
         }}
       >
         Fique alinhado o mês inteiro 💈

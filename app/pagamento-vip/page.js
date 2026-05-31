@@ -48,6 +48,11 @@ export default function PagamentoVip() {
         )
       const data =
         await response.json()
+
+alert(
+  JSON.stringify(data)
+)
+
       console.log(
         "STATUS:",
         data

@@ -1,5 +1,15 @@
 import { NextResponse } from "next/server"
 
+import { db } from "../../../firebase"
+
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc
+} from "firebase/firestore"
+
 export async function GET(req) {
 
   try {
@@ -13,15 +23,9 @@ export async function GET(req) {
     if (!id) {
 
       return NextResponse.json(
-        {
-          erro:
-            "ID NÃO INFORMADO"
-        },
-        {
-          status: 400
-        }
+        { erro: "ID NÃO INFORMADO" },
+        { status: 400 }
       )
-
     }
 
     const response =
@@ -43,10 +47,55 @@ export async function GET(req) {
       data
     )
 
+    if (
+      data.status === "approved"
+    ) {
+
+      const email =
+        data.metadata?.email
+
+      if (email) {
+
+        const q = query(
+          collection(
+            db,
+            "clientesVip"
+          ),
+          where(
+            "email",
+            "==",
+            email
+          )
+        )
+
+        const snapshot =
+          await getDocs(q)
+
+        if (!snapshot.empty) {
+
+          await updateDoc(
+            snapshot.docs[0].ref,
+            {
+              aprovado: true,
+              pagamentoConfirmado: true,
+              ativo: true,
+              status: "pago",
+              dataPagamento:
+                new Date().toISOString()
+            }
+          )
+
+          console.log(
+            "VIP LIBERADO:",
+            email
+          )
+        }
+      }
+    }
+
     return NextResponse.json({
 
-      status:
-        data.status,
+      status: data.status,
 
       approved:
         data.status ===
@@ -62,15 +111,8 @@ export async function GET(req) {
     )
 
     return NextResponse.json(
-      {
-        erro:
-          "ERRO STATUS"
-      },
-      {
-        status: 500
-      }
+      { erro: "ERRO STATUS" },
+      { status: 500 }
     )
-
   }
-
 }

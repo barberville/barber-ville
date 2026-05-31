@@ -66,7 +66,7 @@ export default function Planos() {
         }
 
         style={{
-          fontSize: "28px",
+          fontSize: "18px",
           cursor: "pointer",
           marginBottom: "15px",
           color: "#d4af37",
@@ -111,7 +111,7 @@ export default function Planos() {
   style={{
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
-    gap: "12px",
+    gap: "8px",
     maxWidth: "100%",
     margin: "0 auto"
   }}
@@ -127,9 +127,9 @@ export default function Planos() {
             border:
               "1px solid rgba(212,175,55,0.25)",
 
-            borderRadius: "30px",
+            borderRadius: "18px",
 
-            padding: "15px",
+            padding: "10px",
 
             backdropFilter:
               "blur(10px)",
@@ -149,15 +149,15 @@ export default function Planos() {
               width: "fit-content",
 
               padding:
-                "8px 14px",
+                "4px 8px",
 
               borderRadius: "999px",
 
               fontWeight: "bold",
 
-              fontSize: "13px",
+              fontSize: "9px",
 
-              marginBottom: "20px"
+              marginBottom: "10px"
             }}
           >
             MAIS ESCOLHIDO 🔥
@@ -166,7 +166,7 @@ export default function Planos() {
           <h2
             style={{
               color: "#d4af37",
-              fontSize: "26px",
+              fontSize: "18px",
               textAlign: "center",
               marginBottom: "10px"
             }}
@@ -177,7 +177,7 @@ export default function Planos() {
           <h3
             style={{
               textAlign: "center",
-              fontSize: "28px",
+              fontSize: "20px",
               marginBottom: "5px",
               fontWeight: "bold"
             }}
@@ -189,7 +189,7 @@ export default function Planos() {
             style={{
               textAlign: "center",
               color: "#aaa",
-              marginBottom: "28px"
+              marginBottom: "10px"
             }}
           >
             mensal
@@ -203,19 +203,19 @@ export default function Planos() {
               border:
                 "1px solid rgba(212,175,55,0.15)",
 
-              borderRadius: "20px",
+              borderRadius: "12px",
 
-              padding: "18px",
+              padding: "8px",
 
-              marginBottom: "25px",
+              marginBottom: "12px",
 
               textAlign: "center",
 
-              lineHeight: "30px",
+              lineHeight: "18px",
 
               color: "#f1f1f1",
 
-              fontSize: "16px"
+              fontSize: "11px"
             }}
           >
             ✂️ Cortes que normalmente sairiam por R$ 30
@@ -226,7 +226,7 @@ export default function Planos() {
             <span
               style={{
                 color: "#d4af37",
-                fontSize: "28px",
+                fontSize: "20px",
                 fontWeight: "bold"
               }}
             >
@@ -237,10 +237,11 @@ export default function Planos() {
           <div
             style={{
               display: "grid",
-              gap: "14px",
-              marginBottom: "35px",
+              gap: "5px",
+              marginBottom: "12px",
               color: "#ddd",
-              lineHeight: "28px"
+              lineHeight: "16px",
+              fontSize:"11px"
             }}
           >
 
@@ -280,15 +281,15 @@ export default function Planos() {
 
               color: "#000",
 
-              padding: "20px",
+              padding: "10px",
 
-              borderRadius: "20px",
+              borderRadius: "12px",
 
               border: "none",
 
               fontWeight: "bold",
 
-              fontSize: "20px",
+              fontSize: "12px",
 
               cursor: "pointer",
 
@@ -306,17 +307,17 @@ export default function Planos() {
         <div
           style={{
             background:
-              "linear-gradient(180deg,#1a1a1a,#000)",
+              "rgba(0,0,0,0.78)",
 
             border:
               "1px solid #d4af37",
 
-            borderRadius: "30px",
+            borderRadius: "18px",
 
-            padding: "15px",
+            padding: "10px",
 
             boxShadow:
-              "0 0 35px rgba(212,175,55,0.18)"
+              "0 0 25px rgba(212,175,55,0.08)"
           }}
         >
 
@@ -330,35 +331,35 @@ export default function Planos() {
               width: "fit-content",
 
               padding:
-                "8px 14px",
+                "4px 8px",
 
               borderRadius: "999px",
 
               fontWeight: "bold",
 
-              fontSize: "13px",
+              fontSize: "9px",
 
-              marginBottom: "20px"
+              marginBottom: "10px"
             }}
           >
             PREMIUM 👑
           </div>
 
           <h2
-            style={{
-              color: "#d4af37",
-              fontSize: "38px",
-              textAlign: "center",
-              marginBottom: "10px"
-            }}
-          >
-            Plano Ouro
-          </h2>
+  style={{
+    color: "#d4af37",
+    fontSize: "18px",
+    textAlign: "center",
+    marginBottom: "10px",
+  }}
+>
+  Plano Ouro
+</h2>
 
           <h3
             style={{
               textAlign: "center",
-              fontSize: "28px",
+              fontSize: "20px",
               marginBottom: "5px",
               fontWeight: "bold"
             }}
@@ -370,7 +371,7 @@ export default function Planos() {
             style={{
               textAlign: "center",
               color: "#aaa",
-              marginBottom: "28px"
+              marginBottom: "10px"
             }}
           >
             mensal
@@ -384,19 +385,19 @@ export default function Planos() {
               border:
                 "1px solid rgba(212,175,55,0.15)",
 
-              borderRadius: "20px",
+              borderRadius: "12px",
 
-              padding: "18px",
+              padding: "8px",
 
-              marginBottom: "25px",
+              marginBottom: "12px",
 
               textAlign: "center",
 
-              lineHeight: "30px",
+              lineHeight: "18px",
 
               color: "#f1f1f1",
 
-              fontSize: "16px"
+              fontSize: "11px"
             }}
           >
             💎 Corte + barba + sobrancelha
@@ -410,7 +411,7 @@ export default function Planos() {
             <span
               style={{
                 color: "#d4af37",
-                fontSize: "28px",
+                fontSize: "20px",
                 fontWeight: "bold"
               }}
             >
@@ -421,32 +422,33 @@ export default function Planos() {
           <div
             style={{
               display: "grid",
-              gap: "14px",
-              marginBottom: "35px",
+              gap: "5px",
+              marginBottom: "12px",
               color: "#ddd",
-              lineHeight: "28px"
+              lineHeight: "16px",
+              fontSize:"11px"
             }}
           >
 
             <div>
-              ✅ Atendimento completo semanal
-            </div>
+  ✅ Fique alinhado toda semana
+</div>
 
-            <div>
-              ✅ Prioridade máxima nos horários
-            </div>
+<div>
+  ✅ Atendimento VIP prioritário
+</div>
 
-            <div>
-              ✅ Aparência sempre alinhada
-            </div>
+<div>
+  ✅ 4 atendimentos por mês
+</div>
 
-            <div>
-              ✅ Atendimento premium VIP
-            </div>
+<div>
+  ✅ Seu horário reservado primeiro
+</div>
 
-            <div>
-              ✅ Economia em todos os atendimentos
-            </div>
+<div>
+  ✅ Economia todo mês
+</div>
 
           </div>
 
@@ -464,15 +466,15 @@ export default function Planos() {
 
               color: "#000",
 
-              padding: "20px",
+              padding: "10px",
 
-              borderRadius: "20px",
+              borderRadius: "12px",
 
               border: "none",
 
               fontWeight: "bold",
 
-              fontSize: "20px",
+              fontSize: "12px",
 
               cursor: "pointer",
 

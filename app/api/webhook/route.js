@@ -34,7 +34,8 @@ export async function POST(req) {
 
       const payment = await response.json()
 
-      console.log("PAYMENT:", payment)
+      console.log("PAYMENT COMPLETO:", JSON.stringify(payment, null, 2))
+console.log("METADATA:", payment.metadata)
 console.log("EMAIL:", payment.metadata?.email)
 
       if (payment.status === "approved") {

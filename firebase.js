@@ -33,7 +33,7 @@ const firebaseConfig = {
     "1:833381427083:web:1f5d9ee9d3e811d80af18e"
 }
 
-console.log("FIREBASE CONFIG", firebaseConfig)
+
 
 const app =
   initializeApp(

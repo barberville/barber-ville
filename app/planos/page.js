@@ -108,13 +108,14 @@ export default function Planos() {
       {/* PLANOS */}
 
       <div
-        style={{
-          display: "grid",
-          gap: "28px",
-          maxWidth: "550px",
-          margin: "0 auto"
-        }}
-      >
+  style={{
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "12px",
+    maxWidth: "100%",
+    margin: "0 auto"
+  }}
+>
 
         {/* PLANO PRATA */}
 
@@ -128,7 +129,7 @@ export default function Planos() {
 
             borderRadius: "30px",
 
-            padding: "35px",
+            padding: "15px",
 
             backdropFilter:
               "blur(10px)",
@@ -165,7 +166,7 @@ export default function Planos() {
           <h2
             style={{
               color: "#d4af37",
-              fontSize: "38px",
+              fontSize: "26px",
               textAlign: "center",
               marginBottom: "10px"
             }}
@@ -176,7 +177,7 @@ export default function Planos() {
           <h3
             style={{
               textAlign: "center",
-              fontSize: "55px",
+              fontSize: "28px",
               marginBottom: "5px",
               fontWeight: "bold"
             }}
@@ -312,7 +313,7 @@ export default function Planos() {
 
             borderRadius: "30px",
 
-            padding: "35px",
+            padding: "15px",
 
             boxShadow:
               "0 0 35px rgba(212,175,55,0.18)"
@@ -357,7 +358,7 @@ export default function Planos() {
           <h3
             style={{
               textAlign: "center",
-              fontSize: "55px",
+              fontSize: "28px",
               marginBottom: "5px",
               fontWeight: "bold"
             }}

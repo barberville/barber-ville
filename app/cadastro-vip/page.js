@@ -293,10 +293,6 @@ export default function CadastroVip() {
 
       )
 
-      alert(
-        "Conta criada com sucesso!"
-      )
-
       window.location.href =
         "/conta-vip"
 
@@ -564,20 +560,22 @@ export default function CadastroVip() {
         />
 
         <input
-          type="text"
+  type="tel"
+  inputMode="numeric"
+  pattern="[0-9]*"
 
-          placeholder="Seu WhatsApp"
+  placeholder="Seu WhatsApp"
 
-          value={whatsapp}
+  value={whatsapp}
 
-          onChange={(e) =>
-            setWhatsapp(
-              e.target.value
-            )
-          }
+  onChange={(e) =>
+    setWhatsapp(
+      e.target.value
+    )
+  }
 
-          style={input}
-        />
+  style={input}
+/>
 
         <input
           type="email"

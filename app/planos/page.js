@@ -101,10 +101,9 @@ export default function Planos() {
         }}
       >
         Fique alinhado o mês inteiro 💈
-        <br />
-        Atendimento semanal com prioridade e economia em todos os cortes.
-      </p>
-
+<br />
+Escolha o plano ideal e garanta atendimento semanal, prioridade nos horários e economia todos os meses.
+</p>
       {/* PLANOS */}
 
       <div
@@ -129,7 +128,7 @@ export default function Planos() {
 
             borderRadius: "18px",
 
-            padding: "10px",
+            padding: "8px",
 
             backdropFilter:
               "blur(10px)",
@@ -207,29 +206,42 @@ export default function Planos() {
 
               padding: "8px",
 
-              marginBottom: "12px",
+              minHeight: "170px",
+
+              marginBottom: "20px",
 
               textAlign: "center",
 
-              lineHeight: "18px",
+              lineHeight: "30px",
 
-              color: "#f1f1f1",
+              color: "#ffffff",
 
-              fontSize: "11px"
+              fontSize: "12px",
+
+              fontWeight: "800",
+
             }}
           >
-            ✂️ Cortes que normalmente sairiam por R$ 30
-            <br />
-            com o VIP saem por apenas
-            <br />
+            ✂️ Corte toda semana
+<br />
+que normalmente sairia por R$ 30
+<br />
+com o VIP sai por apenas
+<br />
 
             <span
-              style={{
-                color: "#d4af37",
-                fontSize: "20px",
-                fontWeight: "bold"
-              }}
-            >
+  style={{
+    color: "#d4af37",
+    fontSize: "30px",
+    fontWeight: "900",
+    display: "block",
+    marginTop: "15px",
+    padding: "10px",
+    border: "2px solid #d4af37",
+    borderRadius: "12px",
+    background: "rgba(212,175,55,0.08)"
+  }}
+>
               R$ 24,99
             </span>
           </div>
@@ -238,32 +250,32 @@ export default function Planos() {
             style={{
               display: "grid",
               gap: "5px",
-              marginBottom: "12px",
+              marginBottom: "20px",
               color: "#ddd",
-              lineHeight: "16px",
-              fontSize:"11px"
+              lineHeight: "14px",
+              fontSize:"10px"
             }}
           >
 
             <div>
-              ✅ Fique alinhado toda semana
-            </div>
+  ✅ Corte toda semana
+</div>
 
-            <div>
-              ✅ Atendimento VIP prioritário
-            </div>
+<div>
+  ✅ 4 cortes por mês
+</div>
 
-            <div>
-              ✅ 4 atendimentos por mês
-            </div>
+<div>
+  ✅ Prioridade no agendamento
+</div>
 
-            <div>
-              ✅ Seu horário reservado primeiro
-            </div>
+<div>
+  ✅ Economia garantida mensalmente
+</div>
 
-            <div>
-              ✅ Economia todo mês
-            </div>
+<div>
+  ✅ Aparência sempre alinhada
+</div>
 
           </div>
 
@@ -281,7 +293,7 @@ export default function Planos() {
 
               color: "#000",
 
-              padding: "10px",
+              padding: "8px",
 
               borderRadius: "12px",
 
@@ -290,6 +302,8 @@ export default function Planos() {
               fontWeight: "bold",
 
               fontSize: "12px",
+
+              marginTop: "20px",
 
               cursor: "pointer",
 
@@ -314,7 +328,7 @@ export default function Planos() {
 
             borderRadius: "18px",
 
-            padding: "10px",
+            padding: "8px",
 
             boxShadow:
               "0 0 25px rgba(212,175,55,0.08)"
@@ -389,53 +403,68 @@ export default function Planos() {
 
               padding: "8px",
 
-              marginBottom: "12px",
+              minHeight:"170px",
+
+              marginBottom: "20px",
 
               textAlign: "center",
 
-              lineHeight: "18px",
+              lineHeight: "30px",
 
-              color: "#f1f1f1",
+              color: "#ffffff",
 
-              fontSize: "11px"
+              fontSize: "12px",
+
+              fontWeight: "800"
+
             }}
           >
-            💎 Corte + barba + sobrancelha
-            <br />
-            que normalmente sairia por R$ 60
-            <br />
-            com o VIP sai por apenas
+            <span
+  style={{
+    whiteSpace: "nowrap",
+    fontSize: "10px"
+  }}
+>
+  💎 Corte + barba + sobrancelha
+</span>
+
+<br />
+que normalmente sairia por R$ 60
+<br />
+com o VIP sai por apenas
 
             <br />
 
             <span
-              style={{
-                color: "#d4af37",
-                fontSize: "20px",
-                fontWeight: "bold"
-              }}
-            >
-              R$ 37,50
-            </span>
+  style={{
+    color: "#d4af37",
+    fontSize: "30px",
+    fontWeight: "900",
+    display: "block",
+    border: "2px solid #d4af37",
+    borderRadius: "12px",
+    padding: "12px",
+    marginTop: "15px",
+    background: "rgba(212,175,55,0.08)"
+  }}
+>
+  R$ 37,50
+</span>
           </div>
 
           <div
             style={{
               display: "grid",
               gap: "5px",
-              marginBottom: "12px",
+              marginBottom: "20px",
               color: "#ddd",
-              lineHeight: "16px",
-              fontSize:"11px"
+              lineHeight: "14px",
+              fontSize:"10px"
             }}
           >
 
             <div>
-  ✅ Fique alinhado toda semana
-</div>
-
-<div>
-  ✅ Atendimento VIP prioritário
+  ✅ Corte + barba toda semana
 </div>
 
 <div>
@@ -443,11 +472,15 @@ export default function Planos() {
 </div>
 
 <div>
-  ✅ Seu horário reservado primeiro
+  ✅ Sobrancelha grátis em todos os atendimentos
 </div>
 
 <div>
-  ✅ Economia todo mês
+  ✅ Prioridade máxima na agenda
+</div>
+
+<div>
+  ✅ Aparência impecável o mês inteiro
 </div>
 
           </div>
@@ -466,7 +499,7 @@ export default function Planos() {
 
               color: "#000",
 
-              padding: "10px",
+              padding: "8px",
 
               borderRadius: "12px",
 

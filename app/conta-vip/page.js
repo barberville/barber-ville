@@ -180,25 +180,31 @@ console.log("EMAIL FIREBASE:", cliente.email)
 
     if (cliente.vencimento) {
 
-      const hoje =
-        new Date()
+      const hoje = new Date()
 
-      const vencimentoData =
-        new Date(
-          cliente.vencimento
-        )
+let proximoDia5 = new Date(
+  hoje.getFullYear(),
+  hoje.getMonth(),
+  5
+)
 
-      const diferenca =
+if (hoje.getDate() > 5) {
 
-        vencimentoData - hoje
+  proximoDia5 = new Date(
+    hoje.getFullYear(),
+    hoje.getMonth() + 1,
+    5
+  )
 
-      const dias = Math.ceil(
+}
 
-        diferenca /
+const diferenca =
+  proximoDia5 - hoje
 
-        (1000 * 60 * 60 * 24)
-
-      )
+const dias = Math.ceil(
+  diferenca /
+  (1000 * 60 * 60 * 24)
+)
 
       setDiasRestantes(dias)
 
@@ -734,8 +740,8 @@ window.location.href =
             </p>
 
             <h2 style={value}>
-              ✂️ {restantes} serviços
-            </h2>
+  ✂️ {restantes} {restantes === 1 ? "corte disponível" : "cortes disponíveis"}
+</h2>
 
             <div
               style={{
@@ -817,7 +823,8 @@ window.location.href =
       lineHeight: "22px"
     }}
   >
-    ⚠️ Seu VIP está próximo do vencimento.
+    ⚠️ 👑 Sua renovação está próxima.
+Garanta a continuidade do seu plano VIP.
   </p>
 
 )}

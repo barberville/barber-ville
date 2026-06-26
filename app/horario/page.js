@@ -75,25 +75,42 @@ export default function Horario() {
       hoje.getDay()
     ]
 
-  function filtrarDiasFuturos(
-    dias
-  ) {
+ function filtrarDiasFuturos(dias) {
 
-    const indexHoje =
+  const hoje = new Date()
 
-      diasOrdem.indexOf(
-        hojeNome
-      )
+  const diaSemanaHoje = hoje.getDay()
 
-    return dias.filter(
-      (dia) =>
+  const resultado = []
 
-        diasOrdem.indexOf(
-          dia
-        ) >= indexHoje
+  dias.forEach((dia) => {
+
+    const indiceDia =
+      diasOrdem.indexOf(dia)
+
+    let diferenca =
+      indiceDia - diaSemanaHoje
+
+    if (diferenca < 0) {
+      return
+    }
+
+    const data = new Date()
+
+    data.setDate(
+      hoje.getDate() + diferenca
     )
 
-  }
+    resultado.push({
+      nome: dia,
+      data: data.toISOString()
+    })
+
+  })
+
+  return resultado
+
+}
 
   function gerarHorarios(
     inicio,
@@ -158,6 +175,8 @@ export default function Horario() {
     "barbeiroSelecionado"
   )
 
+  console.log("BARBEIRO:", barbeiro)
+
       const docRef =
         doc(
   db,
@@ -168,10 +187,14 @@ export default function Horario() {
       const docSnap =
         await getDoc(docRef)
 
+        console.log("DOC EXISTE:", docSnap.exists())
+
       if (docSnap.exists()) {
 
         const config =
           docSnap.data()
+
+          console.log("CONFIG:", config)
 
         const horarios =
           gerarHorarios(
@@ -227,17 +250,20 @@ export default function Horario() {
 
           )
 
-        setDiasSemana(
-          diasVisiveis
-        )
+        setDiasSemana(diasVisiveis)
 
-        if (
-          diasVisiveis.length > 0
-        ) {
+       if (
+  diasVisiveis.length > 0
+) {
 
-          setDiaSelecionado(
-            diasVisiveis[0]
-          )
+  setDiaSelecionado(
+    diasVisiveis[0].nome
+  )
+
+  localStorage.setItem(
+    "dataSelecionada",
+    diasVisiveis[0].data
+  )
 
         }
 
@@ -252,6 +278,10 @@ export default function Horario() {
   useEffect(() => {
 
     async function buscarHorarios() {
+
+console.time("buscarHorarios")
+
+      console.log("FUNÇÃO EXECUTOU")
 
       const barbeiro =
         localStorage.getItem(
@@ -273,35 +303,58 @@ export default function Horario() {
         const dados =
           doc.data()
 
-        if (
+          console.log("AGENDAMENTO:", dados)
 
-          dados.barbeiro ===
-          barbeiro
+console.log(
+  "COMPARANDO:",
+  {
+    barbeiroBanco: dados.barbeiro,
+    barbeiroTela: barbeiro,
+    diaBanco: dados.dia,
+    diaTela: diaSelecionado,
+    horaBanco: dados.hora,
+    horarioBanco: dados.horario,
 
-          &&
+    dataBanco: dados.dataAgendamento,
+    dataTela: localStorage.getItem("dataSelecionada"),
 
-          dados.dia ===
-          diaSelecionado
+    status: dados.status
+  }
+)
 
-          &&
+       const semanaAtual = new Date().getDate()
 
-          dados.status !==
-          "faltou"
+       if (
+  dados.barbeiro === barbeiro
+  &&
+  dados.dia === diaSelecionado
+  &&
+  dados.status !== "faltou"
+) {
+  ocupados.push(
+    dados.hora
+  )
+}
 
-        ) {
-
-          ocupados.push(
-            dados.hora
-          )
-        }
       })
 
-      setHorariosOcupados(
-        ocupados
-      )
+     console.log(
+  "OCUPADOS:",
+  ocupados
+)
+
+setHorariosOcupados(
+  ocupados
+)
+
+console.timeEnd(
+  "buscarHorarios"
+)
     }
 
     if (diaSelecionado) {
+
+setHorariosOcupados([])
 
       buscarHorarios()
 
@@ -568,7 +621,7 @@ export default function Horario() {
       >
 
         {diasSemana?.map(
-          (dia, index) => (
+          (item, index) => (
 
           <button
 
@@ -576,22 +629,28 @@ export default function Horario() {
 
             onClick={() => {
 
-              setDiaSelecionado(
-                dia
-              )
+  setDiaSelecionado(
+    item.nome
+  )
 
-              setHorarioSelecionado(
-                ""
-              )
+  localStorage.setItem(
+    "dataSelecionada",
+    item.data
+  )
 
-            }}
+  console.log(
+    "DATA SALVA:",
+    item.data
+  )
+
+  setHorarioSelecionado("")
+}}
 
             style={{
 
               background:
 
-                diaSelecionado ===
-                dia
+                diaSelecionado === item.nome
 
                 ? "#d4af37"
 
@@ -599,8 +658,7 @@ export default function Horario() {
 
               color:
 
-                diaSelecionado ===
-                dia
+                diaSelecionado === item.nome
 
                 ? "#000"
 
@@ -608,8 +666,7 @@ export default function Horario() {
 
               border:
 
-                diaSelecionado ===
-                dia
+                diaSelecionado === item.nome
 
                 ? "1px solid #d4af37"
 
@@ -626,7 +683,7 @@ export default function Horario() {
               cursor: "pointer"
             }}
           >
-            {dia}
+            {item.nome}
           </button>
 
         ))}

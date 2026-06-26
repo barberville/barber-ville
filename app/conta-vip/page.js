@@ -151,9 +151,19 @@ const cliente =
       cliente.barbeiro || ""
     )
 
+localStorage.setItem(
+  "barbeiroSelecionado",
+  cliente.barbeiro || ""
+)
+
     setPlano(
       cliente.plano || ""
     )
+
+    localStorage.setItem(
+  "planoVip",
+  cliente.plano || ""
+)
 
     setRestantes(
       cliente.restantes ?? 4
@@ -1014,11 +1024,23 @@ Garanta a continuidade do seu plano VIP.
             }}
           >
 
-            <button
-              onClick={() =>
-                window.location.href =
-                  "/agendamento"
-              }
+           <button
+  onClick={() => {
+
+    console.log(
+      "BARBEIRO VIP:",
+      barbeiro
+    )
+
+    localStorage.setItem(
+      "barbeiroSelecionado",
+      barbeiro
+    )
+
+    window.location.href =
+      "/servicos-vip"
+
+  }}
 
               style={{
                 width: "100%",
@@ -1041,7 +1063,7 @@ Garanta a continuidade do seu plano VIP.
                 cursor: "pointer"
               }}
             >
-              📅 Agendar horário
+              📅 Agendar Agora
             </button>
 
 {restantes <= 0 && (

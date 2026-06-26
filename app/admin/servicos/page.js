@@ -26,6 +26,9 @@ export default function ServicosAdmin() {
   const [tempo, setTempo] =
     useState("")
 
+    const [categoria, setCategoria] =
+  useState("Cortes")
+
   const [loading, setLoading] =
     useState(false)
 
@@ -78,17 +81,19 @@ export default function ServicosAdmin() {
       setLoading(true)
 
       await addDoc(
-        collection(db, "servicos"),
-        {
-          nome,
-          preco,
-          tempo
-        }
-      )
+  collection(db, "servicos"),
+  {
+    nome,
+    preco,
+    tempo,
+    categoria
+  }
+)
 
       setNome("")
       setPreco("")
       setTempo("")
+      setCategoria("Cortes")
 
       carregarServicos()
 
@@ -272,6 +277,26 @@ export default function ServicosAdmin() {
             fontSize: 14
           }}
         />
+
+<select
+  value={categoria}
+  onChange={(e) =>
+    setCategoria(e.target.value)
+  }
+  style={{
+    padding: 14,
+    borderRadius: 12,
+    border: "none",
+    outline: "none",
+    background: "#1b1b1b",
+    color: "white",
+    fontSize: 14
+  }}
+>
+  <option>Cortes</option>
+  <option>Barba</option>
+  <option>Outros Serviços</option>
+</select>
 
         <button
           onClick={

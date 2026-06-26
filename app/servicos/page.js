@@ -31,6 +31,35 @@ export default function Servicos() {
     setServicos
   ] = useState([])
 
+  const cortes =
+  servicos.filter(
+    item =>
+      item.categoria ===
+      "Cortes"
+  )
+
+const barba =
+  servicos.filter(
+    item =>
+      item.categoria ===
+      "Barba"
+  )
+
+const extras =
+  servicos.filter(
+    item =>
+      item.categoria ===
+      "Outros Serviços"
+  )
+
+console.log("Cortes:", cortes)
+
+console.log("Barba:", barba)
+
+console.log("Extras:", extras)
+
+console.log(servicos)
+
   const [
     carregando,
     setCarregando
@@ -70,8 +99,12 @@ export default function Servicos() {
             id: doc.id,
             nome:
               dados.nome || "",
-            preco:
-              Number(dados.preco) || 0,
+
+              categoria: dados.categoria || "",
+            preco: Number(
+  String(dados.preco)
+    .replace(",", ".")
+) || 0,
             tempo:
               Number(dados.tempo) || 0
           })
@@ -99,35 +132,30 @@ export default function Servicos() {
 
   function selecionarServico(servico) {
 
-    const existe =
-      servicosSelecionados.find(
-        item =>
-          item.id ===
-          servico.id
-      )
+    console.log("Selecionados:", servicosSelecionados)
+
+  setServicosSelecionados((anterior) => {
+
+    const existe = anterior.find(
+      item => item.id === servico.id
+    )
 
     if (existe) {
 
-      setServicosSelecionados(
-
-        servicosSelecionados.filter(
-          item =>
-            item.id !==
-            servico.id
-        )
-
+      return anterior.filter(
+        item => item.id !== servico.id
       )
-
-    } else {
-
-      setServicosSelecionados([
-        ...servicosSelecionados,
-        servico
-      ])
 
     }
 
-  }
+    return [
+      ...anterior,
+      servico
+    ]
+
+  })
+
+}
 
   function salvarServicos() {
 
@@ -201,15 +229,15 @@ export default function Servicos() {
   return (
 
     <main
-      style={{
-        minHeight: "100vh",
-        background: "#070707",
-        color: "#fff",
-        padding:
-          "18px 8px 110px 8px",
-        fontFamily: "Arial"
-      }}
-    >
+  style={{
+    minHeight: "100vh",
+    background: "#070707",
+    color: "#fff",
+    padding: "18px 8px 110px 8px",
+    fontFamily: "Arial",
+    overflowX: "hidden"
+  }}
+>
 
       <div
         onClick={() =>
@@ -474,146 +502,357 @@ export default function Servicos() {
         </p>
 
       ) : (
+<div>
+          <div
+  style={{
+    width: "100%",
+    gridColumn: "1 / -1",
+    textAlign: "center",
+    marginBottom: "20px"
+  }}
+>
+  <h2>CORTES</h2>
+</div>
 
+<div
+  style={{
+  display: "grid",
+  gridTemplateColumns: "repeat(3, 1fr",
+  gap: "12px",
+  width: "100%",
+  maxWidth: "100%",
+  padding: "0 8px",
+  boxSizing: "border-box",
+  margin: "0 auto"
+}}
+>
+  {cortes.map((servico) => {
+
+  const ativo =
+    servicosSelecionados.find(
+      item => item.id === servico.id
+    )
+
+  return (
+    <div
+      key={servico.id}
+      onClick={() => selecionarServico(servico)}
+      style={{
+  minHeight: "150px",
+  width: "100%",
+  minWidth: "0",
+  boxSizing: "border-box",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+        background: ativo
+          ? "rgba(212,175,55,0.12)"
+          : "#111",
+        padding: "12px",
+        borderRadius: "14px",
+        cursor: "pointer",
+        border: ativo
+          ? "1px solid #d4af37"
+          : "1px solid rgba(255,255,255,0.03)"
+      }}
+    >
+      <div>
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(3, 1fr)",
-            gap: "8px",
-            maxWidth: "900px",
-            margin: "0 auto"
+            width: "40px",
+            height: "40px",
+            borderRadius: "10px",
+            background: "rgba(212,175,55,0.08)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "18px",
+            marginBottom: "10px"
           }}
         >
+          {pegarIcone(servico.nome)}
+        </div>
 
-          {servicos.map(
-            (servico) => {
+        <h2
+  style={{
+    fontSize: "11px",
+    lineHeight: "14px",
+    color: ativo ? "#d4af37" : "#fff",
+    whiteSpace: "pre-line"
+  }}
+>
+  {servico.nome.replace("/", "/\n")}
+</h2>
+      </div>
 
-            const ativo =
-              servicosSelecionados.find(
-                item =>
-                  item.id ===
-                  servico.id
-              )
+      <div>
+        <p
+          style={{
+            margin: 0,
+            fontSize: "14px",
+            color: "#d4af37",
+            fontWeight: "bold"
+          }}
+        >
+          💰 R$ {servico.preco}
+        </p>
 
-            return (
+        <p
+          style={{
+            marginTop: "4px",
+            fontSize: "10px",
+            color: "#aaa"
+          }}
+        >
+          ⏰ {servico.tempo} min
+        </p>
+      </div>
+    </div>
+  )
+})}
 
-              <div
-                key={servico.id}
+</div>
+<div
+  style={{
+    width: "100%",
+    textAlign: "center",
+    marginTop: "30px",
+    marginBottom: "20px"
+  }}
+>
+  <h2>BARBA</h2>
+</div>
 
-                onClick={() =>
-                  selecionarServico(
-                    servico
-                  )
-                }
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: "12px",
+    width: "100%",
+    maxWidth: "100%",
+    padding: "0 8px",
+    boxSizing: "border-box",
+    margin: "0 auto"
+  }}
+>
+  {barba.map((servico) => {
+const ativo =
+  servicosSelecionados.some(
+    item => String(item.id) === String(servico.id)
+  )
 
-                style={{
-                  minHeight: "150px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent:
-                    "space-between",
-                  background:
-                    ativo
-                      ? "rgba(212,175,55,0.12)"
-                      : "#111",
-                  padding: "12px",
-                  borderRadius: "14px",
-                  cursor: "pointer",
-                  border:
-                    ativo
-                      ? "1px solid #d4af37"
-                      : "1px solid rgba(255,255,255,0.03)"
-                }}
-              >
+    return (
+      <div
+        key={servico.id}
+        onClick={() => selecionarServico(servico)}
+        style={{
+          height: "150px",
+          width: "100%",
+          minWidth: "0",
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          background: ativo
+            ? "rgba(212,175,55,0.12)"
+            : "#111",
+          padding: "12px",
+          borderRadius: "14px",
+          cursor: "pointer",
+          outline: "none",
+WebkitTapHighlightColor: "transparent",
+          border: ativo
+  ? "1px solid #d4af37"
+  : "none",
 
-                <div>
+        
 
-                  <div
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "10px",
-                      background:
-                        "rgba(212,175,55,0.08)",
-                      display: "flex",
-                      alignItems:
-                        "center",
-                      justifyContent:
-                        "center",
-                      fontSize: "18px",
-                      marginBottom: "10px"
-                    }}
-                  >
-                    {pegarIcone(
-                      servico.nome
-                    )}
-                  </div>
 
-                  <h2
-                    style={{
-                      fontSize: "15px",
-                      marginBottom:
-                        "10px",
-                      lineHeight:
-                        "18px",
-                      color:
-                        ativo
-                          ? "#d4af37"
-                          : "#fff"
-                    }}
-                  >
-                    {servico.nome}
-                  </h2>
+        }}
+      >
+        <div>
+          <div
+            style={{
+              width: "40px",
+              height: "40px",
+              borderRadius: "10px",
+              background: "rgba(212,175,55,0.08)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "18px",
+              marginBottom: "10px"
+            }}
+          >
+            🧔
+          </div>
 
-                </div>
+          <h2
+            style={{
+              fontSize: "11px",
+              lineHeight: "14px",
+              color: ativo ? "#d4af37" : "#fff"
+            }}
+          >
+            {servico.nome}
+          </h2>
+        </div>
 
-                <div>
+        <div>
+          <p
+            style={{
+              margin: 0,
+              fontSize: "14px",
+              color: "#d4af37",
+              fontWeight: "bold"
+            }}
+          >
+            💰 R$ {servico.preco}
+          </p>
 
-                  <p
-                    style={{
-                      margin: 0,
-                      fontSize: "14px",
-                      color: "#d4af37",
-                      fontWeight: "bold"
-                    }}
-                  >
-                    💰 R$ {servico.preco}
-                  </p>
+          <p
+            style={{
+              marginTop: "4px",
+              fontSize: "10px",
+              color: "#aaa"
+            }}
+          >
+            ⏰ {servico.tempo} min
+          </p>
+        </div>
+      </div>
+    )
 
-                  <p
-                    style={{
-                      marginTop: "4px",
-                      fontSize: "10px",
-                      color: "#aaa"
-                    }}
-                  >
-                    ⏰ {servico.tempo} min
-                  </p>
+  })}
+</div>
 
-                </div>
+<div
+  style={{
+    width: "100%",
+    textAlign: "center",
+    marginTop: "30px",
+    marginBottom: "20px"
+  }}
+>
+  <h2>EXTRAS</h2>
+</div>
 
-              </div>
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: "12px",
+    width: "100%",
+    maxWidth: "100%",
+    padding: "0 8px",
+    boxSizing: "border-box",
+    margin: "0 auto"
+  }}
+>
+  {extras.map((servico) => {
 
-            )
+    const ativo =
+      servicosSelecionados.some(
+        item => item.id === servico.id
+      )
 
-          })}
+    return (
+
+      <div
+        key={servico.id}
+        onClick={() => selecionarServico(servico)}
+        style={{
+          height: "150px",
+          width: "100%",
+          minWidth: "0",
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          background: ativo
+            ? "rgba(212,175,55,0.12)"
+            : "#111",
+          padding: "12px",
+          borderRadius: "14px",
+          cursor: "pointer",
+          border: ativo
+            ? "1px solid #d4af37"
+            : "none"
+        }}
+      >
+
+        <div>
+
+          <div
+            style={{
+              width: "40px",
+              height: "40px",
+              borderRadius: "10px",
+              background: "rgba(212,175,55,0.08)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "18px",
+              marginBottom: "10px"
+            }}
+          >
+            🔥
+          </div>
+
+          <h2
+            style={{
+              fontSize: "11px",
+              lineHeight: "14px",
+              color: ativo ? "#d4af37" : "#fff"
+            }}
+          >
+            {servico.nome}
+          </h2>
 
         </div>
 
-      )}
+        <div>
 
-      <div
-        style={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          padding: "10px",
-          background:
-            "rgba(0,0,0,0.95)"
-        }}
-      >
+          <p
+            style={{
+              margin: 0,
+              fontSize: "14px",
+              color: "#d4af37",
+              fontWeight: "bold"
+            }}
+          >
+            💰 R$ {servico.preco}
+          </p>
+
+          <p
+            style={{
+              marginTop: "4px",
+              fontSize: "10px",
+              color: "#aaa"
+            }}
+          >
+            ⏰ {servico.tempo} min
+          </p>
+
+        </div>
+
+      </div>
+
+    )
+
+  })}
+</div>
+
+<div
+  style={{
+    position: "fixed",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: "10px",
+    background: "rgba(0,0,0,0.95)"
+  }}
+>
 
         <Link href="/horario">
 
@@ -641,9 +880,10 @@ export default function Servicos() {
         </Link>
 
       </div>
-
+      </div>
+)}
     </main>
 
-  )
+  );
 
 }

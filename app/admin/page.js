@@ -254,8 +254,8 @@ async function liberarVip(id) {
   async function alterarStatus(
     id,
     novoStatus,
-    item
-  ) {
+    item 
+  ) {alert(JSON.stringify(item))
 
     await updateDoc(
 
@@ -270,6 +270,40 @@ async function liberarVip(id) {
       }
 
     )
+
+const telefone =
+  String(
+    item.whatsapp || ""
+  ).replace(/\D/g, "")
+
+if (telefone) {
+
+  let mensagem = ""
+
+  if (novoStatus === "concluido") {
+
+    mensagem =
+      `Olá ${item.nome}, seu atendimento foi concluído com sucesso na Barber Ville. Obrigado pela preferência! 💈`
+
+  }
+
+  if (novoStatus === "faltou") {
+
+    mensagem =
+      `Olá ${item.nome}, registramos sua ausência no horário agendado. Caso deseje remarcar, entre em contato conosco. 💈`
+
+  }
+
+  if (mensagem) {
+
+    window.open(
+      `https://wa.me/55${telefone}?text=${encodeURIComponent(mensagem)}`,
+      "_blank"
+    )
+
+  }
+
+}
 
     setAgendamentos(
 

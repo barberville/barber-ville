@@ -4,10 +4,15 @@ import { useEffect, useState } from "react"
 
 import { db } from "../../firebase"
 
+import { salvarAgendamento } from "../../lib/agendamentos"
+
 import {
   collection,
-  addDoc,
-  getDocs
+  getDocs,
+  query,
+  where,
+  runTransaction,
+  doc
 } from "firebase/firestore"
 
 export default function Confirmacao() {
@@ -46,12 +51,27 @@ export default function Confirmacao() {
 
   useEffect(() => {
 
-    async function carregarDados() {
+  async function carregarDados() {
 
-      const nomeSalvo =
-        localStorage.getItem(
-          "clienteNome"
-        ) || ""
+    if (
+      localStorage.getItem(
+        "agendamentoConcluido"
+      ) === "sim"
+    ) {
+
+      localStorage.removeItem(
+        "agendamentoConcluido"
+      )
+
+      window.location.href = "/"
+
+      return
+    }
+
+    const nomeSalvo =
+      localStorage.getItem(
+        "clienteNome"
+      ) || ""
 
       const telefoneSalvo =
         localStorage.getItem(
@@ -93,6 +113,9 @@ export default function Confirmacao() {
       setDia(
         diaSalvo
       )
+
+      console.log("DIA DO LOCALSTORAGE:", diaSalvo)
+console.log("HORA DO LOCALSTORAGE:", horaSalva)
 
       setHora(
         horaSalva
@@ -194,130 +217,126 @@ export default function Confirmacao() {
 
   }
 
-  async function confirmarAgendamento() {
+  
+async function confirmarAgendamento() {
 
-    try {
+if (loading) return
 
-      setLoading(true)
+try {
 
-      await addDoc(
-        collection(
-          db,
-          "agendamentos"
-        ),
+setLoading(true)
+console.log(
+  "DATA QUE VAI PRO FIREBASE:",
+  localStorage.getItem("dataSelecionada")
+)
 
-        {
-          nome,
+const q = query(
+  collection(db, "agendamentos"),
+  where("barbeiro", "==", barbeiro),
+  where("dataAgendamento", "==", localStorage.getItem("dataSelecionada")),
+  where("hora", "==", hora),
+  where("status", "==", "agendado")
+)
 
-          whatsapp:
-            telefone,
+const resultado = await getDocs(q)
 
-          barbeiro,
+if (!resultado.empty) {
+  alert("Este horário acabou de ser reservado. Escolha outro horário.")
+  setLoading(false)
+  return
+}
 
-          mes:
-            new Date()
-            .getMonth() + 1,
+await salvarAgendamento({
+    nome,
+    whatsapp: telefone,
+    barbeiro,
+    mes: new Date().getMonth() + 1,
+    ano: new Date().getFullYear(),
 
-          ano:
-            new Date()
-            .getFullYear(),
+    dataCriacao: new Date().toISOString(),
 
-          dia,
-
-          hora,
-
-          servicos,
-
-          produtos:
-            produtosSelecionados,
-
-          total,
-
-          status:
-            "agendado"
-        }
-      )
-
-      const mensagem =
-
-`Olá Barber Ville!%0A%0A
-Novo agendamento:%0A%0A
-👤 Cliente: ${nome}%0A
-📞 Telefone: ${telefone}%0A
-💈 Barbeiro: ${barbeiro}%0A
-✂️ Serviços: ${servicos.map(
-(item) => item.nome
-).join(", ")}%0A
-🛍️ Produtos: ${produtosSelecionados.length > 0
-? produtosSelecionados.map(
-(item) => item.nome
-).join(", ")
-: "Nenhum"}%0A
-📅 Dia: ${dia}%0A
-⏰ Horário: ${hora}%0A
-💰 Total: R$ ${total}`
-
-      let numeroWhatsApp = ""
-
-      if (
-        barbeiro === "Breno"
-      ) {
-
-        numeroWhatsApp =
-          "5583991161032"
-
-      } else if (
-        barbeiro === "Daniel"
-      ) {
-
-        numeroWhatsApp =
-          "5583993793911"
-
-      }
-
-      window.open(
-
-        `https://wa.me/${numeroWhatsApp}?text=${mensagem}`,
-
-        "_blank"
-
-      )
-
-      alert(
-        "Agendamento confirmado!"
-      )
-
-      localStorage.removeItem(
-        "servicosSelecionados"
-      )
-
-      localStorage.removeItem(
-        "horarioSelecionado"
-      )
-
-      localStorage.removeItem(
-        "diaSelecionado"
-      )
-
-      localStorage.removeItem(
-        "barbeiroSelecionado"
-      )
-
-      window.location.href = "/"
-
-    } catch (erro) {
-
-      console.log(erro)
-
-      alert(
-        "Erro ao confirmar agendamento"
-      )
-
-    }
-
-    setLoading(false)
-
+    dia,
+    hora,
+    dataAgendamento:
+  localStorage.getItem(
+    "dataSelecionada"
+  ),
+    servicos,
+    produtos: produtosSelecionados,
+    total,
+    status: "agendado"
   }
+)
+const mensagem = `
+
+Olá, ${barbeiro}!
+
+Meu agendamento foi realizado com sucesso pela Barber Ville.
+
+DADOS DO AGENDAMENTO
+
+Nome: ${nome}
+Telefone: ${telefone}
+
+Dia: ${dia}
+Horário: ${hora}
+
+Serviços: ${servicos.map(item => item.nome).join(", ")}
+
+Produtos: ${
+  produtosSelecionados.length > 0
+    ? produtosSelecionados.map(item => item.nome).join(", ")
+    : "Nenhum"
+}
+
+Total: R$ ${total}
+
+Até breve!
+`
+
+let numeroWhatsApp = ""
+if (barbeiro === "Breno") {
+  numeroWhatsApp =
+    "5583991161032"
+} else if (
+  barbeiro === "Daniel"
+) {
+  numeroWhatsApp =
+    "5583993793911"
+}
+localStorage.removeItem(
+  "servicosSelecionados"
+)
+localStorage.removeItem(
+  "horarioSelecionado"
+)
+localStorage.removeItem(
+  "diaSelecionado"
+)
+localStorage.removeItem(
+  "barbeiroSelecionado"
+)
+localStorage.setItem(
+  "agendamentoConcluido",
+  "sim"
+)
+window.location.href =
+  `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`
+
+} catch (erro) {
+
+console.log(erro)
+alert(
+  "Erro ao confirmar agendamento"
+)
+
+} finally {
+
+setLoading(false)
+
+}
+
+}
 
   return (
 
